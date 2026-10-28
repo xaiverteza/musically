@@ -608,11 +608,6 @@ app.listen(PORT, "0.0.0.0", () => {
   console.log(`Musically dashboard listening on port ${PORT}`);
 });
        
-/* ===== MUSICALY DASHBOARD FEATURE API =====
-   Paste this block into server.js immediately
-   BEFORE the existing "/* Health check */" section.
-*/
-
 const botStartedAt = Date.now();
 
 /* Search for songs */

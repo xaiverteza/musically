@@ -1,10 +1,24 @@
+
 services:
   - type: web
-    name: musically-dashboard
+    name: musically
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /health
-    autoDeploy: true
-  
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: SESSION_SECRET
+        generateValue: true
+
+      - key: DISCORD_CLIENT_ID
+        sync: false
+
+      - key: DISCORD_CLIENT_SECRET
+        sync: false
+
+      - key: DISCORD_REDIRECT_URI
+        sync: false

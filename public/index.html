@@ -1,136 +1,437 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Musically • Discord Music</title>
+<meta name="theme-color" content="#101014">
+<title>Musically Dashboard</title>
 <style>
-:root{color-scheme:dark;--bg:#0c0a13;--panel:#171321;--panel2:#211a30;--line:#342842;--pink:#ff6ab7;--purple:#a78bfa;--text:#f8f5ff;--muted:#aaa0ba;--bad:#ff7d91;--good:#76e4b5}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#241433 0,#0c0a13 55%);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);min-height:100vh}
-button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(110deg,var(--pink),var(--purple));color:#160d20;font-weight:750}button:disabled{opacity:.45;cursor:not-allowed}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#542338;color:#ffdbe5}.wrap{max-width:1120px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:24px;background:linear-gradient(135deg,var(--pink),var(--purple));color:#170d20}.brand h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted)}.status{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:12px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bad);margin-right:7px}.dot.on{background:var(--good)}.grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);gap:16px}.panel{background:linear-gradient(160deg,#1b1527f5,#12101bf5);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:0 15px 50px #0002;min-width:0}.panel h2{font-size:16px;margin:0 0 14px}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:12px;color:var(--muted)}input,select{width:100%;background:#0f0c17;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:12px;outline:none}input:focus,select:focus{border-color:var(--purple)}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.row input,.row select{flex:1}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.actions button{flex:1;min-width:78px}.now{display:flex;gap:13px;align-items:center;min-height:100px}.cover{width:82px;height:82px;flex-shrink:0;object-fit:cover;border-radius:15px;background:var(--panel2)}.tracktitle{font-size:16px;font-weight:800;overflow-wrap:anywhere}.muted{color:var(--muted);font-size:12px}.queue{display:grid;gap:8px;margin-top:14px}.track{display:flex;gap:10px;align-items:center;padding:10px;background:#ffffff06;border:1px solid #ffffff0c;border-radius:13px}.track img{width:42px;height:42px;object-fit:cover;border-radius:9px}.track .info{min-width:0;flex:1}.track .info div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.track button{padding:7px 10px}.range{width:100%;accent-color:var(--pink)}.note{font-size:12px;color:var(--muted);line-height:1.6}.msg{display:none;padding:11px 13px;border-radius:12px;margin:12px 0;background:#251b31;border:1px solid var(--line);overflow-wrap:anywhere}.msg.show{display:block}.msg.err{border-color:#7e3347;color:#ffc2ce}.msg.ok{border-color:#276b55;color:#b8ffe0}.hidden{display:none!important}.settings{margin-top:16px}.footer{text-align:center;color:var(--muted);font-size:11px;padding:22px}.small{font-size:11px;color:var(--muted)}@media(max-width:760px){.wrap{padding:13px}.grid{grid-template-columns:1fr}.panel{padding:15px}.top{align-items:flex-start}.status{max-width:130px}.row.stack{flex-direction:column;align-items:stretch}.now{align-items:flex-start}}
+:root {
+  color-scheme: dark;
+  --bg:#101014;
+  --panel:#19191f;
+  --panel2:#202028;
+  --line:#30303a;
+  --text:#f4f4f8;
+  --muted:#9999aa;
+  --accent:#a78bfa;
+  --green:#5ee0a0;
+  --red:#ff7185;
+}
+*{box-sizing:border-box}
+body {
+  margin:0;
+  background:radial-gradient(ellipse at top,#242037 0%,var(--bg) 55%);
+  color:var(--text);
+  font:15px system-ui,-apple-system,sans-serif;
+  min-height:100vh;
+}
+button,input,select,textarea{font:inherit}
+button {
+  cursor:pointer;border:1px solid var(--line);
+  border-radius:12px;padding:11px 15px;
+  color:var(--text);background:var(--panel2);
+}
+button:hover{border-color:var(--accent)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.primary{background:var(--accent);color:#171321;border:0;font-weight:700}
+.danger{color:#ff9baa}
+input,select,textarea {
+  width:100%;padding:12px;border:1px solid var(--line);
+  background:#111116;border-radius:10px;color:var(--text);
+  outline:none;margin-top:7px;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+label{display:block;color:var(--muted);font-size:13px;margin:13px 0}
+header {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px max(18px,calc((100% - 1100px)/2));
+  border-bottom:1px solid var(--line);
+  background:#111116d9;position:sticky;top:0;z-index:5;
+  backdrop-filter:blur(18px);
+}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800}
+.logo {
+  display:grid;place-items:center;width:39px;height:39px;
+  border-radius:13px;background:linear-gradient(135deg,#c4b5fd,#8b5cf6);
+  color:#181222;font-size:22px;
+}
+.status{font-size:12px;color:var(--muted)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#777;margin-right:6px}
+main{max-width:1100px;margin:auto;padding:25px 18px 60px}
+.hero{padding:22px 0 28px}
+h1{font-size:clamp(27px,5vw,42px);margin:0 0 8px;letter-spacing:-1.5px}
+h2{font-size:17px;margin:0 0 16px}
+p{color:var(--muted);line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{background:#19191fdc;border:1px solid var(--line);border-radius:18px;padding:19px;min-width:0}
+.wide{grid-column:1/-1}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:17px}
+.stat{background:var(--panel2);border-radius:12px;padding:13px}
+.stat strong{display:block;font-size:22px}
+.stat span{font-size:12px;color:var(--muted)}
+#notice{display:none;padding:12px 14px;border-radius:12px;margin:0 0 15px;background:#252332;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}
+#notice.show{display:block}
+#notice.error{border-color:#8d4351;color:#ffb1bd}
+#notice.success{border-color:#34785b;color:#a6ffd0}
+#login{max-width:450px;margin:40px auto}
+.guild{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
+.guild:last-child{border-bottom:0}
+.guild img{width:42px;height:42px;border-radius:12px;object-fit:cover;background:var(--panel2)}
+.guild .info{flex:1;min-width:0}
+.guild .info strong{display:block;overflow-wrap:anywhere}
+.guild .info small{color:var(--muted)}
+small{color:var(--muted)}
+.hidden{display:none!important}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+@media(max-width:650px){
+ .grid{grid-template-columns:1fr}
+ .wide{grid-column:auto}
+ header{padding:13px 16px}
+ main{padding:18px 13px 45px}
+ .card{padding:15px}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top"><div class="brand"><div class="logo">♫</div><div><h1>Musically</h1><div class="sub">Discord music control room</div></div></div><div class="status"><span id="dot" class="dot"></span><span id="statusText">Dashboard locked</span></div></header>
-<div id="message" class="msg"></div>
-<section id="unlockPanel" class="panel">
-<h2>🔐 Private dashboard</h2><p class="note">Create a dashboard password the first time. Use the same password to unlock it again while this server is running. This password is separate from your Discord bot token.</p>
-<form id="unlockForm"><div class="field"><label>Dashboard password (8+ characters)</label><input id="password" type="password" minlength="8" maxlength="200" autocomplete="current-password" required></div><button type="submit">Unlock dashboard</button></form>
-</section>
-<div id="appPanel" class="hidden">
-<div class="grid">
-<main class="panel">
-<h2>🎧 Now playing</h2>
-<div class="now"><img id="cover" class="cover" alt="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="><div><div id="trackTitle" class="tracktitle">Nothing playing yet</div><div id="trackAuthor" class="muted">Start the bot and add a song.</div><div id="trackDuration" class="muted"></div></div></div>
-<div class="actions"><button class="secondary" data-action="previous">⏮ Previous</button><button data-action="pause">⏸ Pause</button><button data-action="resume">▶ Resume</button><button class="secondary" data-action="skip">⏭ Skip</button><button class="danger" data-action="stop">■ Stop</button></div>
-<div class="field"><label>Volume: <span id="volumeLabel">80%</span></label><input id="volume" class="range" type="range" min="0" max="100" value="80"></div>
-<div class="field"><label>Repeat mode</label><select id="repeat"><option value="0">Off</option><option value="1">Repeat current track</option><option value="2">Repeat queue</option><option value="3">Autoplay</option></select></div>
-<div class="field"><label>Song name or supported music URL</label><input id="query" placeholder="Search a song or paste a URL"></div>
-<div class="field"><label>Discord server</label><select id="guild"><option value="">Start bot to load servers</option></select></div>
-<div class="field"><label>Voice channel</label><select id="voice"><option value="">Choose a server first</option></select></div>
-<button id="playBtn" style="width:100%">＋ Add song & play</button>
-<h2 style="margin-top:24px">☷ Queue <span id="queueCount" class="muted">0 tracks</span></h2>
-<div id="queue" class="queue"><div class="note">Your queue will appear here.</div></div>
+<header>
+  <div class="brand"><div class="logo">♫</div> Musically</div>
+  <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Connecting...</span></div>
+</header>
+
+<main>
+  <div id="notice"></div>
+
+  <section id="login" class="card">
+    <h1>Welcome back.</h1>
+    <p>Sign in with the authorized Discord account to access your dashboard.</p>
+    <button class="primary" style="width:100%" onclick="loginDiscord()">Continue with Discord</button>
+    <p><small>Only the configured owner account should be allowed access.</small></p>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="hero">
+      <p style="margin:0 0 8px">YOUR MUSIC WORKSPACE</p>
+      <h1>Control room.</h1>
+      <p>Manage your bot and Discord servers from one place.</p>
+      <div class="actions">
+        <button onclick="refreshAll()">↻ Refresh</button>
+        <button onclick="logout()">Sign out</button>
+      </div>
+    </div>
+
+    <div class="statrow">
+      <div class="stat"><strong id="botState">Offline</strong><span>Bot status</span></div>
+      <div class="stat"><strong id="guildCount">0</strong><span>Servers</span></div>
+      <div class="stat"><strong id="loginState">Locked</strong><span>Dashboard access</span></div>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Bot connection</h2>
+        <p>Enter your bot token to start the bot. Never share this token or put it in your public source code.</p>
+        <label>Discord bot token
+          <input id="botToken" type="password" placeholder="Paste bot token" autocomplete="off">
+        </label>
+        <div class="actions">
+          <button class="primary" id="startBtn" onclick="startBot()">▶ Start bot</button>
+          <button class="danger" onclick="stopBot()">■ Stop bot</button>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px">
+          <input style="width:auto;margin:0" type="checkbox" onchange="toggleToken(this)">
+          Show token while typing
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>Bot activity</h2>
+        <label>Activity type
+          <select id="activityType">
+            <option value="Listening">Listening to</option>
+            <option value="Playing">Playing</option>
+            <option value="Watching">Watching</option>
+            <option value="Competing">Competing in</option>
+          </select>
+        </label>
+        <label>Activity text
+          <input id="activityText" maxlength="128" placeholder="music">
+        </label>
+        <div class="actions"><button class="primary" onclick="saveActivity()">Update activity</button></div>
+      </section>
+
+      <section class="card">
+        <h2>Your servers</h2>
+        <p>Servers the bot has joined.</p>
+        <div id="guildList"><small>Loading servers...</small></div>
+      </section>
+
+      <section class="card">
+        <h2>Send a message</h2>
+        <label>Server
+          <select id="messageGuild" onchange="loadChannels()">
+            <option value="">Select a server</option>
+          </select>
+        </label>
+        <label>Text channel
+          <select id="messageChannel">
+            <option value="">Select a channel</option>
+          </select>
+        </label>
+        <label>Message
+          <textarea id="messageText" rows="3" maxlength="1900" placeholder="Write a message..."></textarea>
+        </label>
+        <button class="primary" onclick="sendMessage()">Send message</button>
+      </section>
+
+      <section class="card wide">
+        <h2>Now playing & queue</h2>
+        <label>Server
+          <select id="queueGuild" onchange="loadQueue()">
+            <option value="">Select a server</option>
+          </select>
+        </label>
+        <div id="nowPlaying"><p>No track information loaded.</p></div>
+        <div id="queueList"></div>
+      </section>
+    </div>
+  </section>
 </main>
-<aside>
-<section class="panel"><h2>🤖 Bot connection</h2><div id="botInfo" class="note">Bot is not connected.</div>
-<div id="tokenArea"><div class="field"><label>Discord bot token</label><input id="botToken" type="password" autocomplete="off" placeholder="Paste bot token here"></div><button id="startBot" style="width:100%">Connect bot</button><p class="note">Token is sent to this server and kept in memory only; it is not written into this HTML or GitHub. Re-enter it after a server restart or redeploy. Never share it.</p></div>
-<div class="actions"><button id="refresh" class="secondary">↻ Refresh</button><button id="stopBot" class="danger">Disconnect bot</button><button id="lock" class="secondary">Lock dashboard</button></div>
-</section>
-<section class="panel settings"><h2>⚙️ Settings</h2>
-<div class="field"><label>Custom proxy URL (optional)</label><input id="proxy" placeholder="http://host:port (not applied in this build)" disabled></div>
-<p class="note">Proxy routing for Discord gateway/voice connections is not implemented in this build, so this field is disabled rather than pretending it works.</p>
-<p class="note">The bot must be invited to your server with View Channels, Connect, Speak, and Use Application Commands is not required for dashboard controls. Give it the correct voice permissions.</p>
-<button id="inviteHelp" class="secondary" style="width:100%">How to invite the bot</button>
-</section>
-</aside>
-</div>
-</div>
-<div class="footer">Musically • Keep your bot token private • Audio sources may change over time</div>
-</div>
+
+<footer>Musically Dashboard · Keep your bot credentials private.</footer>
+
 <script>
 const $ = id => document.getElementById(id);
-let session = sessionStorage.getItem("musicallySession") || "";
-let selectedGuild = "";
-let refreshTimer = null;
-function message(text, type="") { const el=$("message"); el.textContent=text; el.className="msg show "+(type==="error"?"err":type==="ok"?"ok":""); }
-function clearMessage(){ $("message").className="msg"; $("message").textContent=""; }
+
+function notify(message, type="") {
+  const box = $("notice");
+  box.textContent = message;
+  box.className = "show " + type;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 async function api(url, options={}) {
-  const headers={"Content-Type":"application/json","x-dashboard-session":session,...(options.headers||{})};
-  const response=await fetch(url,{...options,headers});
-  let data={}; try{data=await response.json()}catch(_){}
-  if(response.status===401){lockUI();throw new Error(data.error||"Dashboard locked.");}
-  if(!response.ok) throw new Error(data.error||"Request failed.");
+  const response = await fetch(url, {
+    credentials:"same-origin",
+    ...options,
+    headers: {
+      "Content-Type":"application/json",
+      ...(options.headers || {})
+    }
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
   return data;
 }
-function lockUI(){session="";sessionStorage.removeItem("musicallySession");$("appPanel").classList.add("hidden");$("unlockPanel").classList.remove("hidden");$("statusText").textContent="Dashboard locked";$("dot").classList.remove("on");if(refreshTimer)clearInterval(refreshTimer);}
-async function refreshStatus(){
-  try{
-    const s=await api("/api/status",{headers:{}});
-    $("statusText").textContent=s.botReady?(s.bot?.tag||"Bot online"):"Dashboard unlocked";
-    $("dot").classList.toggle("on",!!s.botReady);
-    $("botInfo").textContent=s.botReady?`Online as ${s.bot.tag} • ${s.guilds} server(s)`:(s.configured?"Bot is connecting…":"Bot is not connected.");
-    $("tokenArea").classList.toggle("hidden",!!s.configured);
-    if(s.lastError) message("Bot message: "+s.lastError,"error");
-    if(s.botReady) await loadGuilds();
-  }catch(e){message(e.message,"error");}
+
+function loginDiscord() {
+  window.location.href = "/auth/discord";
 }
-$("unlockForm").addEventListener("submit",async e=>{
-  e.preventDefault();clearMessage();
-  try{const d=await fetch("/api/unlock",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:$("password").value})});const result=await d.json();if(!d.ok)throw new Error(result.error||"Could not unlock.");session=result.session;sessionStorage.setItem("musicallySession",session);$("password").value="";$("unlockPanel").classList.add("hidden");$("appPanel").classList.remove("hidden");message(result.firstSetup?"Dashboard password created for this running session. Save it somewhere safe.":"Dashboard unlocked.","ok");await refreshStatus();if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(session)refreshQueue().catch(()=>{});},8000);}catch(err){message(err.message,"error");}
-});
-$("startBot").addEventListener("click",async()=>{
-  const token=$("botToken").value.trim();if(!token)return message("Paste your Discord bot token first.","error");
-  $("startBot").disabled=true;
-  try{await api("/api/bot/start",{method:"POST",body:JSON.stringify({token})});$("botToken").value="";message("Bot login requested. Wait a few seconds, then refresh.","ok");setTimeout(refreshStatus,2500);}
-  catch(e){message(e.message,"error");}finally{$("startBot").disabled=false;}
-});
-$("stopBot").addEventListener("click",async()=>{try{await api("/api/bot/stop",{method:"POST",body:"{}"});message("Bot disconnected.","ok");await refreshStatus();}catch(e){message(e.message,"error");}});
-$("lock").addEventListener("click",async()=>{try{await api("/api/lock",{method:"POST",body:"{}"});}catch(_){}lockUI();});
-$("refresh").addEventListener("click",()=>refreshStatus().then(refreshQueue).catch(e=>message(e.message,"error")));
-$("guild").addEventListener("change",async()=>{selectedGuild=$("guild").value;await loadChannels();await refreshQueue();});
-async function loadGuilds(){
-  const d=await api("/api/guilds");const select=$("guild");const old=selectedGuild||select.value;select.innerHTML="";
-  if(!d.guilds.length){select.add(new Option("Bot is not in any servers",""));$("voice").innerHTML="";return;}
-  d.guilds.forEach(g=>select.add(new Option(g.name,g.id)));
-  if(d.guilds.some(g=>g.id===old))select.value=old;selectedGuild=select.value;await loadChannels();
+
+async function logout() {
+  try { await api("/auth/logout",{method:"POST"}); }
+  catch {}
+  location.reload();
 }
-async function loadChannels(){
-  const select=$("voice");select.innerHTML="";
-  if(!selectedGuild){select.add(new Option("Choose a server first",""));return;}
-  try{const d=await api(`/api/guilds/${encodeURIComponent(selectedGuild)}/channels`);if(!d.channels.length)select.add(new Option("No voice channels found",""));d.channels.forEach(c=>select.add(new Option(c.name,c.id)));}
-  catch(e){select.add(new Option("Could not load channels",""));message(e.message,"error");}
+
+function toggleToken(checkbox) {
+  $("botToken").type = checkbox.checked ? "text" : "password";
 }
-$("playBtn").addEventListener("click",async()=>{
-  const query=$("query").value.trim();if(!query)return message("Enter a song name or URL.","error");
-  try{const d=await api("/api/play",{method:"POST",body:JSON.stringify({guildId:$("guild").value,voiceChannelId:$("voice").value,query})});$("query").value="";message("Added: "+d.added,"ok");await refreshQueue();}
-  catch(e){message(e.message,"error");}
-});
-async function control(action,value){
-  try{await api(`/api/control/${action}`,{method:"POST",body:JSON.stringify({guildId:$("guild").value,value})});await refreshQueue();}
-  catch(e){message(e.message,"error");}
+
+async function refreshStatus() {
+  try {
+    const data = await api("/api/status");
+    const online = !!data.botReady;
+    $("statusDot").style.background = online ? "#5ee0a0" : "#777";
+    $("statusText").textContent = online ? "Bot online" : "Bot offline";
+    $("botState").textContent = online ? "Online" : "Offline";
+    if (data.lastError) notify(data.lastError,"error");
+  } catch (error) {
+    $("statusText").textContent = "Server unavailable";
+  }
 }
-document.querySelectorAll("[data-action]").forEach(b=>b.addEventListener("click",()=>control(b.dataset.action)));
-$("volume").addEventListener("change",()=>{$("volumeLabel").textContent=$("volume").value+"%";control("volume",Number($("volume").value));});
-$("repeat").addEventListener("change",()=>control("repeat",Number($("repeat").value)));
-async function refreshQueue(){
-  if(!session||!$("guild").value)return;
-  try{
-    const d=await api(`/api/queue/${encodeURIComponent($("guild").value)}`);
-    $("trackTitle").textContent=d.current?.title||"Nothing playing yet";
-    $("trackAuthor").textContent=d.current?.author||"Start playback by adding a song.";
-    $("trackDuration").textContent=d.current?.duration||"";
-    $("cover").src=d.current?.thumbnail||"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
-    $("volume").value=d.volume??80;$("volumeLabel").textContent=(d.volume??80)+"%";$("repeat").value=String(d.repeatMode??0);
-    $("queueCount").textContent=`${d.tracks.length} queued`;
-    const queue=$("queue");queue.innerHTML="";
-    if(!d.tracks.length){queue.innerHTML='<div class="note">Queue is empty.</div>';return;}
-    d.tracks.forEach((t,i)=>{const item=document.createElement("div");item.className="track";const img=document.createElement("img");img.src=t.thumbnail||"";img.alt="";const info=document.createElement("div");info.className="info";const title=document.createElement("div");title.textContent=`${i+1}. ${t.title}`;title.style.fontWeight="700";const author=document.createElement("div");author.className="muted";author.textContent=`${t.author||"Unknown"} • ${t.duration||""}`;info.append(title,author);const remove=document.createElement("button");remove.className="secondary";remove.textContent="×";remove.title="Remove from queue";remove.addEventListener("click",()=>control("remove",i));item.append(img,info,remove);queue.append(item);});
-  }catch(e){if(!e.message.includes("Dashboard locked"))message(e.message,"error");}
+
+async function refreshAll() {
+  try {
+    const auth = await api("/auth/me");
+    if (!auth.authenticated) {
+      $("login").classList.remove("hidden");
+      $("dashboard").classList.add("hidden");
+      return;
+    }
+
+    $("login").classList.add("hidden");
+    $("dashboard").classList.remove("hidden");
+    $("loginState").textContent = "Unlocked";
+
+    await refreshStatus();
+    await loadGuilds();
+  } catch (error) {
+    notify(error.message,"error");
+  }
 }
-$("inviteHelp").addEventListener("click",()=>message("In Discord Developer Portal → your application → OAuth2 → URL Generator, select bot scope. Give it View Channels, Connect, Speak, and Send Messages if needed. Open the generated invite URL and add the bot to your server. Enable the bot and copy its token from the Bot page; never share or publish it."));
-if(session){$("unlockPanel").classList.add("hidden");$("appPanel").classList.remove("hidden");refreshStatus().then(refreshQueue).catch(()=>lockUI());refreshTimer=setInterval(()=>{if(session)refreshQueue().catch(()=>{});},8000);}
+
+async function startBot() {
+  const token = $("botToken").value.trim();
+  if (!token) return notify("Paste your bot token first.","error");
+
+  $("startBtn").disabled = true;
+  try {
+    const result = await api("/api/bot/start",{
+      method:"POST",
+      body:JSON.stringify({token})
+    });
+    $("botToken").value = "";
+    notify(result.message || "Bot start requested.","success");
+    setTimeout(refreshStatus,1500);
+  } catch(error) {
+    notify(error.message,"error");
+  } finally {
+    $("startBtn").disabled = false;
+  }
+}
+
+async function stopBot() {
+  if (!confirm("Stop the music bot?")) return;
+  try {
+    const result = await api("/api/bot/stop",{method:"POST"});
+    notify(result.message || "Bot stopped.","success");
+    await refreshStatus();
+  } catch(error) {
+    notify(error.message,"error");
+  }
+}
+
+async function saveActivity() {
+  try {
+    await api("/api/bot/activity",{
+      method:"POST",
+      body:JSON.stringify({
+        type:$("activityType").value,
+        text:$("activityText").value.trim() || "music"
+      })
+    });
+    notify("Bot activity updated.","success");
+  } catch(error) {
+    notify(error.message,"error");
+  }
+}
+
+async function loadGuilds() {
+  const guilds = await api("/api/guilds");
+  $("guildCount").textContent = guilds.length;
+  $("guildList").innerHTML = "";
+  $("messageGuild").innerHTML = '<option value="">Select a server</option>';
+  $("queueGuild").innerHTML = '<option value="">Select a server</option>';
+
+  for (const guild of guilds) {
+    const item = document.createElement("div");
+    item.className = "guild";
+
+    if (guild.icon) {
+      const img = document.createElement("img");
+      img.src = guild.icon;
+      img.alt = "";
+      item.appendChild(img);
+    }
+
+    const info = document.createElement("div");
+    info.className = "info";
+    const name = document.createElement("strong");
+    name.textContent = guild.name;
+    const count = document.createElement("small");
+    count.textContent = `${guild.memberCount ?? "?"} members`;
+    info.append(name,count);
+    item.appendChild(info);
+    $("guildList").appendChild(item);
+
+    for (const id of ["messageGuild","queueGuild"]) {
+      const option = document.createElement("option");
+      option.value = guild.id;
+      option.textContent = guild.name;
+      $(id).appendChild(option);
+    }
+  }
+
+  if (!guilds.length) $("guildList").textContent = "No servers found.";
+}
+
+async function loadChannels() {
+  const guildId = $("messageGuild").value;
+  const select = $("messageChannel");
+  select.innerHTML = '<option value="">Select a channel</option>';
+  if (!guildId) return;
+
+  try {
+    const channels = await api(`/api/guilds/${encodeURIComponent(guildId)}/channels`);
+    for (const channel of channels) {
+      const option = document.createElement("option");
+      option.value = channel.id;
+      option.textContent = "#" + channel.name;
+      select.appendChild(option);
+    }
+  } catch(error) {
+    notify(error.message,"error");
+  }
+}
+
+async function sendMessage() {
+  const guildId = $("messageGuild").value;
+  const channelId = $("messageChannel").value;
+  const message = $("messageText").value.trim();
+
+  if (!guildId || !channelId || !message) {
+    return notify("Select a server, channel, and enter a message.","error");
+  }
+
+  try {
+    await api(`/api/guilds/${encodeURIComponent(guildId)}/say`,{
+      method:"POST",
+      body:JSON.stringify({channelId,message})
+    });
+    $("messageText").value = "";
+    notify("Message sent.","success");
+  } catch(error) {
+    notify(error.message,"error");
+  }
+}
+
+async function loadQueue() {
+  const guildId = $("queueGuild").value;
+  $("nowPlaying").textContent = "Loading...";
+  $("queueList").textContent = "";
+  if (!guildId) {
+    $("nowPlaying").textContent = "Select a server.";
+    return;
+  }
+
+  try {
+    const data = await api(`/api/guilds/${encodeURIComponent(guildId)}/queue`);
+    $("nowPlaying").textContent = data.current
+      ? `♫ ${data.current.title} — ${data.current.author}`
+      : "Nothing is playing.";
+
+    if (data.current?.thumbnail) {
+      const img = document.createElement("img");
+      img.src = data.current.thumbnail;
+      img.alt = "Album artwork";
+      img.style.cssText = "width:110px;height:110px;object-fit:cover;border-radius:12px;margin-top:12px";
+      $("nowPlaying").appendChild(img);
+    }
+
+    $("queueList").textContent = data.tracks.length
+      ? data.tracks.map((track,index) => `${index+1}. ${track.title} — ${track.author}`).join("\n")
+      : "Queue is empty.";
+    $("queueList").style.whiteSpace = "pre-wrap";
+  } catch(error) {
+    $("nowPlaying").textContent = error.message;
+  }
+}
+
+refreshAll();
+setInterval(refreshStatus,15000);
 </script>
 </body>
 </html>

@@ -408,3 +408,202 @@ async function handleCommand(interaction) {
     return interaction.reply({ content: message, ephemeral: true }).catch(() => {});
   }
 }
+
+/* Dashboard API — owner-only */
+
+app.use("/api", (req, res, next) => {
+  if (req.path === "/status" || req.path === "/unlock") {
+    return next();
+  }
+  return requireOwner(req, res, next);
+});
+
+app.get("/api/guilds", requireOwner, (req, res) => {
+  if (!client) return res.json([]);
+  res.json(client.guilds.cache.map(guild => ({
+    id: guild.id,
+    name: guild.name,
+    icon: guild.iconURL({ size: 128 }),
+    memberCount: guild.memberCount
+  })));
+});
+
+app.get("/api/guilds/:guildId/channels", requireOwner, (req, res) => {
+  const guild = client?.guilds.cache.get(req.params.guildId);
+  if (!guild) return res.status(404).json({ error: "Server not found." });
+
+  res.json(guild.channels.cache
+    .filter(channel => [
+      ChannelType.GuildText,
+      ChannelType.GuildAnnouncement
+    ].includes(channel.type))
+    .map(channel => ({
+      id: channel.id,
+      name: channel.name,
+      type: channel.type
+    })));
+});
+
+app.post("/api/bot/start", requireOwner, async (req, res) => {
+  try {
+    if (client?.isReady()) {
+      return res.json({ ok: true, message: "Bot is already online." });
+    }
+
+    const token = String(req.body?.token || "").trim();
+    if (!token) {
+      return res.status(400).json({ error: "Enter your Discord bot token." });
+    }
+
+    if (client) {
+      try { client.destroy(); } catch {}
+    }
+
+    client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildMessages
+      ]
+    });
+
+    player = new Player(client);
+
+    client.once("ready", async () => {
+      botReady = true;
+      lastError = "";
+
+      try {
+        await client.application.commands.set(commands);
+      } catch (error) {
+        lastError = "Command registration failed: " + error.message;
+        console.error(lastError);
+      }
+
+      client.user.setActivity("music", {
+        type: ActivityType.Listening
+      });
+    });
+
+    client.on("interactionCreate", handleCommand);
+
+    client.on("error", error => {
+      lastError = error.message;
+      console.error("Discord client error:", error);
+    });
+
+    client.on("shardDisconnect", () => {
+      botReady = false;
+    });
+
+    client.on("shardReconnecting", () => {
+      botReady = false;
+    });
+
+    await client.login(token);
+
+    res.json({
+      ok: true,
+      message: "Bot login started. Check the dashboard status shortly."
+    });
+  } catch (error) {
+    botReady = false;
+    lastError = error.message;
+    console.error("Bot start failed:", error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.post("/api/bot/stop", requireOwner, (req, res) => {
+  if (client) {
+    try { client.destroy(); } catch {}
+  }
+
+  client = null;
+  player = null;
+  botReady = false;
+
+  res.json({ ok: true, message: "Bot stopped." });
+});
+
+app.post("/api/bot/activity", requireOwner, (req, res) => {
+  if (!client?.user) {
+    return res.status(400).json({ error: "Start the bot first." });
+  }
+
+  const text = String(req.body?.text || "music").trim().slice(0, 128);
+  const type = String(req.body?.type || "Listening").toLowerCase();
+
+  const activityTypes = {
+    playing: ActivityType.Playing,
+    listening: ActivityType.Listening,
+    watching: ActivityType.Watching,
+    competing: ActivityType.Competing
+  };
+
+  client.user.setActivity(text, {
+    type: activityTypes[type] ?? ActivityType.Listening
+  });
+
+  res.json({ ok: true });
+});
+
+app.post("/api/guilds/:guildId/say", requireOwner, async (req, res) => {
+  try {
+    const guild = client?.guilds.cache.get(req.params.guildId);
+    if (!guild) return res.status(404).json({ error: "Server not found." });
+
+    const channel = guild.channels.cache.get(String(req.body?.channelId || ""));
+    if (!channel || !channel.isTextBased() || !channel.send) {
+      return res.status(400).json({ error: "Choose a valid text channel." });
+    }
+
+    const message = String(req.body?.message || "").trim().slice(0, 1900);
+    if (!message) return res.status(400).json({ error: "Message is empty." });
+
+    await channel.send({ content: message });
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.get("/api/guilds/:guildId/queue", requireOwner, (req, res) => {
+  const guild = client?.guilds.cache.get(req.params.guildId);
+  if (!guild) return res.status(404).json({ error: "Server not found." });
+
+  const queue = player?.nodes.get(guild.id);
+
+  res.json({
+    current: queue?.currentTrack ? {
+      title: queue.currentTrack.title,
+      author: queue.currentTrack.author,
+      url: queue.currentTrack.url,
+      thumbnail: queue.currentTrack.thumbnail
+    } : null,
+    tracks: queue?.tracks.toArray().map(track => ({
+      title: track.title,
+      author: track.author,
+      url: track.url,
+      thumbnail: track.thumbnail
+    })) || [],
+    paused: queue?.node.isPaused() || false,
+    volume: queue?.node.volume ?? 80
+  });
+});
+
+/* Health check */
+
+app.get("/health", (req, res) => {
+  res.json({
+    ok: true,
+    botReady,
+    uptime: Math.floor(process.uptime())
+  });
+});
+
+/* Start server */
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Musically dashboard listening on port ${PORT}`);
+});

@@ -5,99 +5,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101014">
-<title>Musically Dashboard</title>
+<title>Musically — Control Room</title>
 <style>
 :root {
-  color-scheme: dark;
+  color-scheme:dark;
   --bg:#101014;
   --panel:#19191f;
-  --panel2:#202028;
-  --line:#30303a;
-  --text:#f4f4f8;
-  --muted:#9999aa;
+  --panel2:#23232c;
+  --line:#343440;
+  --text:#f4f3fa;
+  --muted:#a4a2b5;
   --accent:#a78bfa;
-  --green:#5ee0a0;
-  --red:#ff7185;
+  --good:#5ee0a0;
+  --bad:#ff7185;
 }
 *{box-sizing:border-box}
-body {
-  margin:0;
-  background:radial-gradient(ellipse at top,#242037 0%,var(--bg) 55%);
-  color:var(--text);
-  font:15px system-ui,-apple-system,sans-serif;
-  min-height:100vh;
+body{
+  margin:0;background:radial-gradient(ellipse at top,#28203c,var(--bg) 55%);
+  color:var(--text);font:15px system-ui,-apple-system,sans-serif;min-height:100vh
 }
 button,input,select,textarea{font:inherit}
-button {
-  cursor:pointer;border:1px solid var(--line);
-  border-radius:12px;padding:11px 15px;
-  color:var(--text);background:var(--panel2);
+button{
+  cursor:pointer;border:1px solid var(--line);border-radius:11px;
+  padding:10px 13px;color:var(--text);background:var(--panel2)
 }
 button:hover{border-color:var(--accent)}
-button:disabled{opacity:.5;cursor:not-allowed}
-.primary{background:var(--accent);color:#171321;border:0;font-weight:700}
+button:disabled{opacity:.5;cursor:wait}
+.primary{background:var(--accent);color:#171321;border:0;font-weight:750}
 .danger{color:#ff9baa}
-input,select,textarea {
-  width:100%;padding:12px;border:1px solid var(--line);
-  background:#111116;border-radius:10px;color:var(--text);
-  outline:none;margin-top:7px;
+input,select,textarea{
+  width:100%;padding:11px;border:1px solid var(--line);
+  background:#111116;border-radius:10px;color:var(--text);margin-top:7px
 }
-input:focus,select:focus,textarea:focus{border-color:var(--accent)}
-label{display:block;color:var(--muted);font-size:13px;margin:13px 0}
-header {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px max(18px,calc((100% - 1100px)/2));
-  border-bottom:1px solid var(--line);
-  background:#111116d9;position:sticky;top:0;z-index:5;
-  backdrop-filter:blur(18px);
+label{display:block;color:var(--muted);font-size:13px;margin:12px 0}
+header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 20px;border-bottom:1px solid var(--line);
+  background:#111116ed;position:sticky;top:0;z-index:10;backdrop-filter:blur(15px)
 }
-.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800}
-.logo {
-  display:grid;place-items:center;width:39px;height:39px;
-  border-radius:13px;background:linear-gradient(135deg,#c4b5fd,#8b5cf6);
-  color:#181222;font-size:22px;
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:850}
+.logo{
+  display:grid;place-items:center;width:40px;height:40px;border-radius:13px;
+  background:linear-gradient(135deg,#ddd6fe,#8b5cf6);color:#181222;font-size:24px
 }
 .status{font-size:12px;color:var(--muted)}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#777;margin-right:6px}
-main{max-width:1100px;margin:auto;padding:25px 18px 60px}
-.hero{padding:22px 0 28px}
-h1{font-size:clamp(27px,5vw,42px);margin:0 0 8px;letter-spacing:-1.5px}
-h2{font-size:17px;margin:0 0 16px}
-p{color:var(--muted);line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-.card{background:#19191fdc;border:1px solid var(--line);border-radius:18px;padding:19px;min-width:0}
+main{max-width:1150px;margin:auto;padding:22px 18px 55px}
+.hero{padding:20px 0}
+h1{font-size:clamp(28px,5vw,43px);letter-spacing:-1.4px;margin:0 0 8px}
+h2{font-size:17px;margin:0 0 14px}
+p{color:var(--muted);line-height:1.55}
+small,.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:#19191fe8;border:1px solid var(--line);border-radius:17px;padding:17px;min-width:0}
 .wide{grid-column:1/-1}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
-.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:17px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0}
 .stat{background:var(--panel2);border-radius:12px;padding:13px}
-.stat strong{display:block;font-size:22px}
+.stat strong{display:block;font-size:22px;overflow-wrap:anywhere}
 .stat span{font-size:12px;color:var(--muted)}
-#notice{display:none;padding:12px 14px;border-radius:12px;margin:0 0 15px;background:#252332;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}
+#notice{display:none;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:14px;white-space:pre-wrap;overflow-wrap:anywhere}
 #notice.show{display:block}
 #notice.error{border-color:#8d4351;color:#ffb1bd}
 #notice.success{border-color:#34785b;color:#a6ffd0}
-#login{max-width:450px;margin:40px auto}
-.guild{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
-.guild:last-child{border-bottom:0}
-.guild img{width:42px;height:42px;border-radius:12px;object-fit:cover;background:var(--panel2)}
-.guild .info{flex:1;min-width:0}
-.guild .info strong{display:block;overflow-wrap:anywhere}
-.guild .info small{color:var(--muted)}
-small{color:var(--muted)}
 .hidden{display:none!important}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+.nav{display:flex;gap:7px;overflow:auto;padding:3px 0 14px}
+.nav button{white-space:nowrap}
+.nav button.active{background:var(--accent);color:#171321;border-color:transparent}
+.page{display:none}
+.page.active{display:block}
+.guild{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.guild:last-child{border-bottom:0}
+.guild img{width:40px;height:40px;border-radius:12px;object-fit:cover;background:var(--panel2)}
+.guild .info{flex:1;min-width:0;overflow-wrap:anywhere}
+.track{padding:12px 0;border-bottom:1px solid var(--line)}
+.track:last-child{border-bottom:0}
+.track strong{display:block;overflow-wrap:anywhere}
+.pill{display:inline-block;border:1px solid var(--line);padding:4px 8px;border-radius:99px;font-size:11px;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center}
+.row>*{min-width:0}
+.row input,.row select{flex:1}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--muted);font:13px ui-monospace,monospace}
+#lyricsText{white-space:pre-wrap;line-height:1.8;max-height:430px;overflow:auto}
+hr{border:0;border-top:1px solid var(--line);margin:17px 0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}
+body.light{
+  color-scheme:light;--bg:#f5f3fa;--panel:#fff;--panel2:#eeebf5;
+  --line:#d9d4e4;--text:#211b2c;--muted:#6c6578;--accent:#a78bfa;
+  background:linear-gradient(#ece5ff,#f7f6fb 350px)
+}
+body.light header{background:#ffffffed}
+body.light .card{background:#ffffffed}
+body.light input,body.light select,body.light textarea{background:#fff;color:var(--text)}
 @media(max-width:650px){
- .grid{grid-template-columns:1fr}
- .wide{grid-column:auto}
- header{padding:13px 16px}
- main{padding:18px 13px 45px}
- .card{padding:15px}
+  header{padding:12px}
+  main{padding:14px 11px 40px}
+  .grid{grid-template-columns:1fr}
+  .wide{grid-column:auto}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card{padding:14px}
+  .status{max-width:110px;text-align:right}
+  .row{align-items:stretch;flex-direction:column}
 }
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="logo">♫</div> Musically</div>
+  <div class="brand"><div class="logo">♫</div>Musically</div>
   <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Connecting...</span></div>
 </header>
 
@@ -106,330 +120,618 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
 
   <section id="login" class="card">
     <h1>Welcome back.</h1>
-    <p>Sign in with the authorized Discord account to access your dashboard.</p>
+    <p>Sign in with the authorized Discord account to access your control room.</p>
     <button class="primary" style="width:100%" onclick="loginDiscord()">Continue with Discord</button>
-    <p><small>Only the configured owner account should be allowed access.</small></p>
   </section>
 
   <section id="dashboard" class="hidden">
     <div class="hero">
-      <p style="margin:0 0 8px">YOUR MUSIC WORKSPACE</p>
+      <span class="pill">YOUR MUSIC WORKSPACE</span>
       <h1>Control room.</h1>
-      <p>Manage your bot and Discord servers from one place.</p>
+      <p>Manage your bot, music tools, and server settings.</p>
       <div class="actions">
         <button onclick="refreshAll()">↻ Refresh</button>
         <button onclick="logout()">Sign out</button>
       </div>
     </div>
 
-    <div class="statrow">
+    <div class="stats">
       <div class="stat"><strong id="botState">Offline</strong><span>Bot status</span></div>
       <div class="stat"><strong id="guildCount">0</strong><span>Servers</span></div>
-      <div class="stat"><strong id="loginState">Locked</strong><span>Dashboard access</span></div>
+      <div class="stat"><strong id="uptime">—</strong><span>Bot uptime</span></div>
+      <div class="stat"><strong id="latency">—</strong><span>Connection</span></div>
     </div>
 
-    <div class="grid">
-      <section class="card">
-        <h2>Bot connection</h2>
-        <p>Enter your bot token to start the bot. Never share this token or put it in your public source code.</p>
-        <label>Discord bot token
-          <input id="botToken" type="password" placeholder="Paste bot token" autocomplete="off">
-        </label>
-        <div class="actions">
-          <button class="primary" id="startBtn" onclick="startBot()">▶ Start bot</button>
-          <button class="danger" onclick="stopBot()">■ Stop bot</button>
-        </div>
-        <label style="display:flex;align-items:center;gap:8px">
-          <input style="width:auto;margin:0" type="checkbox" onchange="toggleToken(this)">
-          Show token while typing
-        </label>
-      </section>
+    <nav class="nav">
+      <button class="active" data-page="home">⌂ Overview</button>
+      <button data-page="music">♫ Music</button>
+      <button data-page="lyrics">▤ Lyrics</button>
+      <button data-page="favorites">♡ Favorites</button>
+      <button data-page="servers">◎ Servers</button>
+      <button data-page="settings">⚙ Settings</button>
+    </nav>
 
-      <section class="card">
-        <h2>Bot activity</h2>
-        <label>Activity type
-          <select id="activityType">
-            <option value="Listening">Listening to</option>
-            <option value="Playing">Playing</option>
-            <option value="Watching">Watching</option>
-            <option value="Competing">Competing in</option>
-          </select>
-        </label>
-        <label>Activity text
-          <input id="activityText" maxlength="128" placeholder="music">
-        </label>
-        <div class="actions"><button class="primary" onclick="saveActivity()">Update activity</button></div>
-      </section>
+    <section class="page active" id="page-home">
+      <div class="grid">
+        <section class="card">
+          <h2>Bot connection</h2>
+          <p>Enter your Discord bot token here. It is sent to your server and should never be shared.</p>
+          <label>Bot token
+            <input id="botToken" type="password" autocomplete="off" placeholder="Paste bot token">
+          </label>
+          <label style="display:flex;align-items:center;gap:8px">
+            <input id="showToken" style="width:auto;margin:0" type="checkbox">
+            Show token while typing
+          </label>
+          <div class="actions">
+            <button class="primary" id="startBtn" onclick="startBot()">▶ Start bot</button>
+            <button class="danger" onclick="stopBot()">■ Stop bot</button>
+          </div>
+        </section>
 
-      <section class="card">
-        <h2>Your servers</h2>
-        <p>Servers the bot has joined.</p>
-        <div id="guildList"><small>Loading servers...</small></div>
-      </section>
+        <section class="card">
+          <h2>Custom bot status</h2>
+          <label>Activity type
+            <select id="activityType">
+              <option value="Listening">Listening to</option>
+              <option value="Playing">Playing</option>
+              <option value="Watching">Watching</option>
+              <option value="Competing">Competing in</option>
+            </select>
+          </label>
+          <label>Activity text
+            <input id="activityText" maxlength="128" placeholder="music">
+          </label>
+          <button class="primary" onclick="saveActivity()">Update status</button>
+        </section>
 
-      <section class="card">
-        <h2>Send a message</h2>
-        <label>Server
-          <select id="messageGuild" onchange="loadChannels()">
-            <option value="">Select a server</option>
-          </select>
-        </label>
-        <label>Text channel
-          <select id="messageChannel">
-            <option value="">Select a channel</option>
-          </select>
-        </label>
-        <label>Message
-          <textarea id="messageText" rows="3" maxlength="1900" placeholder="Write a message..."></textarea>
-        </label>
-        <button class="primary" onclick="sendMessage()">Send message</button>
-      </section>
+        <section class="card">
+          <h2>Quick music search</h2>
+          <label>Song title or artist
+            <input id="songSearch" placeholder="Search a song..." onkeydown="if(event.key==='Enter')searchSongs()">
+          </label>
+          <button class="primary" onclick="searchSongs()">Search songs</button>
+          <div id="searchResults"></div>
+        </section>
 
-      <section class="card wide">
-        <h2>Now playing & queue</h2>
-        <label>Server
-          <select id="queueGuild" onchange="loadQueue()">
-            <option value="">Select a server</option>
-          </select>
+        <section class="card">
+          <h2>Now playing</h2>
+          <label>Server
+            <select id="queueGuild" onchange="loadQueue()">
+              <option value="">Select a server</option>
+            </select>
+          </label>
+          <div id="nowPlaying"><p>No track information loaded.</p></div>
+          <div class="actions">
+            <button onclick="musicAction('pause')">Ⅱ Pause</button>
+            <button onclick="musicAction('resume')">▶ Resume</button>
+            <button onclick="musicAction('skip')">⏭ Skip</button>
+            <button onclick="musicAction('stop')">■ Stop</button>
+            <button onclick="musicAction('shuffle')">⤨ Shuffle</button>
+          </div>
+          <div id="queueList"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="page" id="page-music">
+      <div class="grid">
+        <section class="card wide">
+          <h2>Music search</h2>
+          <p>Search for tracks by title or artist. Playback requires a compatible music source and a connected bot.</p>
+          <div class="row">
+            <input id="songSearch2" placeholder="Song title or artist" onkeydown="if(event.key==='Enter')searchSongs(true)">
+            <button class="primary" onclick="searchSongs(true)">Search</button>
+          </div>
+          <div id="searchResults2"></div>
+        </section>
+        <section class="card">
+          <h2>Playback preferences</h2>
+          <label>Volume
+            <input id="volume" type="range" min="0" max="100" value="80">
+            <span id="volumeValue">80%</span>
+          </label>
+          <button onclick="musicAction('volume')">Apply volume</button>
+          <label>Repeat mode
+            <select id="repeatMode">
+              <option value="off">Off</option>
+              <option value="track">Repeat track</option>
+              <option value="queue">Repeat queue</option>
+              <option value="autoplay">Autoplay</option>
+            </select>
+          </label>
+          <button onclick="musicAction('loop')">Apply repeat mode</button>
+        </section>
+        <section class="card">
+          <h2>Playlist tools</h2>
+          <p>Save a playlist link for quick access. Importing and playing a playlist requires backend support.</p>
+          <label>Playlist URL
+            <input id="playlistUrl" placeholder="https://...">
+          </label>
+          <button onclick="savePlaylist()">Save playlist link</button>
+          <div id="playlistList"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="page" id="page-lyrics">
+      <section class="card">
+        <h2>Lyrics finder</h2>
+        <p>Search lyrics by song title and artist.</p>
+        <label>Song title
+          <input id="lyricsTitle" placeholder="Song title">
         </label>
-        <div id="nowPlaying"><p>No track information loaded.</p></div>
-        <div id="queueList"></div>
+        <label>Artist
+          <input id="lyricsArtist" placeholder="Artist name (optional)">
+        </label>
+        <button class="primary" onclick="findLyrics()">Find lyrics</button>
+        <hr>
+        <div id="lyricsText">Lyrics will appear here.</div>
       </section>
-    </div>
+    </section>
+
+    <section class="page" id="page-favorites">
+      <section class="card">
+        <h2>Favorite songs</h2>
+        <p>Favorites are stored in this browser on this device.</p>
+        <div id="favoriteList"><p>No favorites yet. Save a track from search results.</p></div>
+      </section>
+    </section>
+
+    <section class="page" id="page-servers">
+      <div class="grid">
+        <section class="card">
+          <h2>Your servers</h2>
+          <p>Servers the bot has joined.</p>
+          <div id="guildList">Loading servers...</div>
+        </section>
+        <section class="card">
+          <h2>Send a message</h2>
+          <label>Server
+            <select id="messageGuild" onchange="loadChannels()">
+              <option value="">Select a server</option>
+            </select>
+          </label>
+          <label>Text channel
+            <select id="messageChannel"><option value="">Select a channel</option></select>
+          </label>
+          <label>Message
+            <textarea id="messageText" rows="3" maxlength="1900" placeholder="Write a message..."></textarea>
+          </label>
+          <button class="primary" onclick="sendMessage()">Send message</button>
+        </section>
+      </div>
+    </section>
+
+    <section class="page" id="page-settings">
+      <div class="grid">
+        <section class="card">
+          <h2>Appearance</h2>
+          <label>Dashboard theme
+            <select id="themeSelect">
+              <option value="dark">Midnight</option>
+              <option value="light">Light</option>
+            </select>
+          </label>
+          <button onclick="applyTheme()">Apply theme</button>
+          <label>Accent color
+            <input id="accentColor" type="color" value="#a78bfa">
+          </label>
+          <button onclick="applyAccent()">Apply accent</button>
+        </section>
+        <section class="card">
+          <h2>Connection diagnostics</h2>
+          <p>Check whether the dashboard API is reachable.</p>
+          <button onclick="runDiagnostics()">Run diagnostics</button>
+          <pre id="diagnosticOutput">Diagnostics have not been run.</pre>
+        </section>
+        <section class="card">
+          <h2>Custom proxy settings</h2>
+          <p>Proxy settings only work when the server has explicit proxy support. These values are saved locally and are not automatically applied to the bot.</p>
+          <label>Proxy URL
+            <input id="proxyUrl" placeholder="http://host:port">
+          </label>
+          <label>Proxy username (optional)
+            <input id="proxyUser" autocomplete="off">
+          </label>
+          <label>Proxy password (optional)
+            <input id="proxyPass" type="password" autocomplete="new-password">
+          </label>
+          <button onclick="saveProxySettings()">Save locally</button>
+          <button onclick="clearProxySettings()">Clear</button>
+          <p><small>Do not enter sensitive credentials on a shared device.</small></p>
+        </section>
+        <section class="card">
+          <h2>Backup and restore</h2>
+          <p>Export your local favorites, playlists, and dashboard preferences.</p>
+          <div class="actions">
+            <button onclick="exportBackup()">Export backup</button>
+            <button onclick="$('restoreFile').click()">Restore backup</button>
+          </div>
+          <input class="hidden" id="restoreFile" type="file" accept="application/json">
+        </section>
+        <section class="card">
+          <h2>Session</h2>
+          <p>Sign out of your authorized dashboard session.</p>
+          <button class="danger" onclick="logout()">Sign out</button>
+        </section>
+      </div>
+    </section>
   </section>
 </main>
 
-<footer>Musically Dashboard · Keep your bot credentials private.</footer>
+<footer>Musically · Keep your Discord credentials private.</footer>
 
 <script>
 const $ = id => document.getElementById(id);
+const localKeys = {
+  favorites:"musically_favorites",
+  playlists:"musically_playlists",
+  theme:"musically_theme",
+  accent:"musically_accent",
+  proxy:"musically_proxy"
+};
 
-function notify(message, type="") {
-  const box = $("notice");
-  box.textContent = message;
-  box.className = "show " + type;
+function readLocal(key,fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+  catch { return fallback; }
+}
+function writeLocal(key,value) {
+  localStorage.setItem(key,JSON.stringify(value));
+}
+function notify(message,type="") {
+  const box=$("notice");
+  box.textContent=message;
+  box.className="show "+type;
   window.scrollTo({top:0,behavior:"smooth"});
 }
-
-async function api(url, options={}) {
-  const response = await fetch(url, {
+async function api(url,options={}) {
+  const response=await fetch(url,{
     credentials:"same-origin",
     ...options,
-    headers: {
+    headers:{
       "Content-Type":"application/json",
-      ...(options.headers || {})
+      ...(options.headers||{})
     }
   });
-
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok) throw new Error(data.error||`Request failed (${response.status})`);
   return data;
 }
-
-function loginDiscord() {
-  window.location.href = "/auth/discord";
-}
-
-async function logout() {
-  try { await api("/auth/logout",{method:"POST"}); }
-  catch {}
+function loginDiscord(){location.href="/auth/discord"}
+async function logout(){
+  try{await api("/auth/logout",{method:"POST"})}catch{}
   location.reload();
 }
-
-function toggleToken(checkbox) {
-  $("botToken").type = checkbox.checked ? "text" : "password";
+function switchPage(name){
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));
 }
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>switchPage(b.dataset.page)));
 
-async function refreshStatus() {
-  try {
-    const data = await api("/api/status");
-    const online = !!data.botReady;
-    $("statusDot").style.background = online ? "#5ee0a0" : "#777";
-    $("statusText").textContent = online ? "Bot online" : "Bot offline";
-    $("botState").textContent = online ? "Online" : "Offline";
-    if (data.lastError) notify(data.lastError,"error");
-  } catch (error) {
-    $("statusText").textContent = "Server unavailable";
+$("showToken").addEventListener("change",e=>{
+  $("botToken").type=e.target.checked?"text":"password";
+});
+$("volume").addEventListener("input",e=>$("volumeValue").textContent=e.target.value+"%");
+
+async function refreshStatus(){
+  try{
+    const data=await api("/api/status");
+    const online=!!data.botReady;
+    $("statusDot").style.background=online?"var(--good)":"#777";
+    $("statusText").textContent=online?"Bot online":"Bot offline";
+    $("botState").textContent=online?"Online":"Offline";
+    $("guildCount").textContent=data.guilds??0;
+    $("latency").textContent=online?"Connected":"Offline";
+    if(data.lastError)notify(data.lastError,"error");
+  }catch{
+    $("statusText").textContent="Server unavailable";
+    $("latency").textContent="Unavailable";
   }
 }
-
-async function refreshAll() {
-  try {
-    const auth = await api("/auth/me");
-    if (!auth.authenticated) {
+async function refreshAll(){
+  try{
+    const auth=await api("/auth/me");
+    if(!auth.authenticated){
       $("login").classList.remove("hidden");
       $("dashboard").classList.add("hidden");
       return;
     }
-
     $("login").classList.add("hidden");
     $("dashboard").classList.remove("hidden");
-    $("loginState").textContent = "Unlocked";
-
     await refreshStatus();
     await loadGuilds();
-  } catch (error) {
-    notify(error.message,"error");
-  }
+    renderFavorites();
+    renderPlaylists();
+  }catch(error){notify(error.message,"error")}
 }
-
-async function startBot() {
-  const token = $("botToken").value.trim();
-  if (!token) return notify("Paste your bot token first.","error");
-
-  $("startBtn").disabled = true;
-  try {
-    const result = await api("/api/bot/start",{
-      method:"POST",
-      body:JSON.stringify({token})
-    });
-    $("botToken").value = "";
-    notify(result.message || "Bot start requested.","success");
-    setTimeout(refreshStatus,1500);
-  } catch(error) {
-    notify(error.message,"error");
-  } finally {
-    $("startBtn").disabled = false;
-  }
+async function startBot(){
+  const token=$("botToken").value.trim();
+  if(!token)return notify("Paste your bot token first.","error");
+  $("startBtn").disabled=true;
+  try{
+    const result=await api("/api/bot/start",{method:"POST",body:JSON.stringify({token})});
+    $("botToken").value="";
+    notify(result.message||"Bot start requested.","success");
+    setTimeout(refreshAll,1200);
+  }catch(error){notify(error.message,"error")}
+  finally{$("startBtn").disabled=false}
 }
-
-async function stopBot() {
-  if (!confirm("Stop the music bot?")) return;
-  try {
-    const result = await api("/api/bot/stop",{method:"POST"});
-    notify(result.message || "Bot stopped.","success");
-    await refreshStatus();
-  } catch(error) {
-    notify(error.message,"error");
-  }
+async function stopBot(){
+  if(!confirm("Stop the music bot?"))return;
+  try{
+    const result=await api("/api/bot/stop",{method:"POST"});
+    notify(result.message||"Bot stopped.","success");
+    await refreshAll();
+  }catch(error){notify(error.message,"error")}
 }
-
-async function saveActivity() {
-  try {
-    await api("/api/bot/activity",{
+async function saveActivity(){
+  try{
+    const result=await api("/api/bot/activity",{
       method:"POST",
       body:JSON.stringify({
         type:$("activityType").value,
-        text:$("activityText").value.trim() || "music"
+        text:$("activityText").value.trim()||"music"
       })
     });
-    notify("Bot activity updated.","success");
-  } catch(error) {
-    notify(error.message,"error");
+    notify(result.message||"Activity updated.","success");
+  }catch(error){notify(error.message,"error")}
+}
+async function loadGuilds(){
+  const guilds=await api("/api/guilds");
+  $("guildCount").textContent=guilds.length;
+  $("guildList").replaceChildren();
+  for(const id of ["messageGuild","queueGuild"]){
+    const select=$(id);
+    const old=select.value;
+    select.replaceChildren(new Option("Select a server",""));
+    guilds.forEach(g=>select.add(new Option(g.name,g.id)));
+    if(guilds.some(g=>g.id===old))select.value=old;
+  }
+  if(!guilds.length)$("guildList").textContent="No servers found. Make sure the bot is online and has joined a server.";
+  for(const guild of guilds){
+    const item=document.createElement("div");
+    item.className="guild";
+    if(guild.icon){
+      const img=document.createElement("img");
+      img.src=guild.icon;img.alt="";item.appendChild(img);
+    }
+    const info=document.createElement("div");
+    info.className="info";
+    const title=document.createElement("strong");
+    title.textContent=guild.name;
+    const small=document.createElement("small");
+    small.textContent=`${guild.memberCount??"?"} members`;
+    info.append(title,small);item.appendChild(info);$("guildList").appendChild(item);
   }
 }
-
-async function loadGuilds() {
-  const guilds = await api("/api/guilds");
-  $("guildCount").textContent = guilds.length;
-  $("guildList").innerHTML = "";
-  $("messageGuild").innerHTML = '<option value="">Select a server</option>';
-  $("queueGuild").innerHTML = '<option value="">Select a server</option>';
-
-  for (const guild of guilds) {
-    const item = document.createElement("div");
-    item.className = "guild";
-
-    if (guild.icon) {
-      const img = document.createElement("img");
-      img.src = guild.icon;
-      img.alt = "";
-      item.appendChild(img);
-    }
-
-    const info = document.createElement("div");
-    info.className = "info";
-    const name = document.createElement("strong");
-    name.textContent = guild.name;
-    const count = document.createElement("small");
-    count.textContent = `${guild.memberCount ?? "?"} members`;
-    info.append(name,count);
-    item.appendChild(info);
-    $("guildList").appendChild(item);
-
-    for (const id of ["messageGuild","queueGuild"]) {
-      const option = document.createElement("option");
-      option.value = guild.id;
-      option.textContent = guild.name;
-      $(id).appendChild(option);
-    }
-  }
-
-  if (!guilds.length) $("guildList").textContent = "No servers found.";
+async function loadChannels(){
+  const guildId=$("messageGuild").value;
+  const select=$("messageChannel");
+  select.replaceChildren(new Option("Select a channel",""));
+  if(!guildId)return;
+  try{
+    const channels=await api(`/api/guilds/${encodeURIComponent(guildId)}/channels`);
+    channels.forEach(c=>select.add(new Option("# "+c.name,c.id)));
+  }catch(error){notify(error.message,"error")}
 }
-
-async function loadChannels() {
-  const guildId = $("messageGuild").value;
-  const select = $("messageChannel");
-  select.innerHTML = '<option value="">Select a channel</option>';
-  if (!guildId) return;
-
-  try {
-    const channels = await api(`/api/guilds/${encodeURIComponent(guildId)}/channels`);
-    for (const channel of channels) {
-      const option = document.createElement("option");
-      option.value = channel.id;
-      option.textContent = "#" + channel.name;
-      select.appendChild(option);
-    }
-  } catch(error) {
-    notify(error.message,"error");
-  }
-}
-
-async function sendMessage() {
-  const guildId = $("messageGuild").value;
-  const channelId = $("messageChannel").value;
-  const message = $("messageText").value.trim();
-
-  if (!guildId || !channelId || !message) {
-    return notify("Select a server, channel, and enter a message.","error");
-  }
-
-  try {
-    await api(`/api/guilds/${encodeURIComponent(guildId)}/say`,{
-      method:"POST",
-      body:JSON.stringify({channelId,message})
+async function sendMessage(){
+  const guildId=$("messageGuild").value;
+  const channelId=$("messageChannel").value;
+  const message=$("messageText").value.trim();
+  if(!guildId||!channelId||!message)return notify("Choose a server, channel, and message.","error");
+  try{
+    const result=await api(`/api/guilds/${encodeURIComponent(guildId)}/say`,{
+      method:"POST",body:JSON.stringify({channelId,message})
     });
-    $("messageText").value = "";
-    notify("Message sent.","success");
-  } catch(error) {
-    notify(error.message,"error");
-  }
+    $("messageText").value="";
+    notify(result.message||"Message sent.","success");
+  }catch(error){notify(error.message,"error")}
 }
-
-async function loadQueue() {
-  const guildId = $("queueGuild").value;
-  $("nowPlaying").textContent = "Loading...";
-  $("queueList").textContent = "";
-  if (!guildId) {
-    $("nowPlaying").textContent = "Select a server.";
-    return;
-  }
-
-  try {
-    const data = await api(`/api/guilds/${encodeURIComponent(guildId)}/queue`);
-    $("nowPlaying").textContent = data.current
-      ? `♫ ${data.current.title} — ${data.current.author}`
-      : "Nothing is playing.";
-
-    if (data.current?.thumbnail) {
-      const img = document.createElement("img");
-      img.src = data.current.thumbnail;
-      img.alt = "Album artwork";
-      img.style.cssText = "width:110px;height:110px;object-fit:cover;border-radius:12px;margin-top:12px";
-      $("nowPlaying").appendChild(img);
-    }
-
-    $("queueList").textContent = data.tracks.length
-      ? data.tracks.map((track,index) => `${index+1}. ${track.title} — ${track.author}`).join("\n")
-      : "Queue is empty.";
-    $("queueList").style.whiteSpace = "pre-wrap";
-  } catch(error) {
-    $("nowPlaying").textContent = error.message;
-  }
+async function loadQueue(){
+  const guildId=$("queueGuild").value;
+  $("queueList").replaceChildren();
+  $("nowPlaying").textContent="Loading...";
+  if(!guildId){$("nowPlaying").textContent="Select a server.";return}
+  try{
+    const data=await api(`/api/guilds/${encodeURIComponent(guildId)}/queue`);
+    const current=data.current||data.currentTrack||null;
+    $("nowPlaying").textContent=current?(current.title||current.name||"Now playing"):"Nothing is playing.";
+    const tracks=data.tracks||data.queue||[];
+    tracks.forEach((track,i)=>{
+      const div=document.createElement("div");div.className="track";
+      const strong=document.createElement("strong");strong.textContent=`${i+1}. ${track.title||track.name||"Unknown track"}`;
+      div.appendChild(strong);$("queueList").appendChild(div);
+    });
+  }catch(error){$("nowPlaying").textContent="Queue unavailable.";notify(error.message,"error")}
 }
-
+async function musicAction(action){
+  const guildId=$("queueGuild").value;
+  if(!guildId)return notify("Select a server first.","error");
+  const body={action};
+  if(action==="volume")body.volume=Number($("volume").value);
+  if(action==="loop")body.mode=$("repeatMode").value;
+  try{
+    const result=await api(`/api/guilds/${encodeURIComponent(guildId)}/player`,{
+      method:"POST",body:JSON.stringify(body)
+    });
+    notify(result.message||"Playback action sent.","success");
+    await loadQueue();
+  }catch(error){notify(error.message,"error")}
+}
+async function searchSongs(second=false){
+  const query=$(second?"songSearch2":"songSearch").value.trim();
+  if(!query)return notify("Enter a song title or artist.","error");
+  const target=$(second?"searchResults2":"searchResults");
+  target.textContent="Searching...";
+  try{
+    const data=await api("/api/music/search",{method:"POST",body:JSON.stringify({query})});
+    target.replaceChildren();
+    const tracks=data.tracks||data.results||[];
+    if(!tracks.length){target.textContent="No results found.";return}
+    tracks.forEach(track=>{
+      const div=document.createElement("div");div.className="track";
+      const title=document.createElement("strong");
+      title.textContent=track.title||track.name||"Untitled";
+      const artist=document.createElement("p");
+      artist.textContent=track.author||track.artist||"Unknown artist";
+      const actions=document.createElement("div");actions.className="actions";
+      const fav=document.createElement("button");fav.textContent="♡ Favorite";
+      fav.onclick=()=>addFavorite(track);
+      const play=document.createElement("button");play.textContent="▶ Play";
+      play.onclick=()=>playTrack(track);
+      actions.append(fav,play);div.append(title,artist,actions);target.appendChild(div);
+    });
+  }catch(error){target.textContent="Search endpoint is not available yet.";notify(error.message,"error")}
+}
+async function playTrack(track){
+  const guildId=$("queueGuild").value;
+  if(!guildId)return notify("Select a server in the Now Playing section first.","error");
+  try{
+    const result=await api(`/api/guilds/${encodeURIComponent(guildId)}/play`,{
+      method:"POST",body:JSON.stringify({query:track.url||track.title||track.name})
+    });
+    notify(result.message||"Track queued.","success");
+    loadQueue();
+  }catch(error){notify(error.message,"error")}
+}
+function addFavorite(track){
+  const items=readLocal(localKeys.favorites,[]);
+  const key=track.url||track.title||track.name;
+  if(items.some(x=>(x.url||x.title||x.name)===key))return notify("Already in favorites.");
+  items.push(track);writeLocal(localKeys.favorites,items);renderFavorites();
+  notify("Added to favorites.","success");
+}
+function renderFavorites(){
+  const target=$("favoriteList");target.replaceChildren();
+  const items=readLocal(localKeys.favorites,[]);
+  if(!items.length){target.textContent="No favorites yet. Save a track from search results.";return}
+  items.forEach((track,i)=>{
+    const div=document.createElement("div");div.className="track";
+    const title=document.createElement("strong");title.textContent=track.title||track.name||"Untitled";
+    const remove=document.createElement("button");remove.textContent="Remove";
+    remove.onclick=()=>{const a=readLocal(localKeys.favorites,[]);a.splice(i,1);writeLocal(localKeys.favorites,a);renderFavorites()};
+    div.append(title,remove);target.appendChild(div);
+  });
+}
+async function findLyrics(){
+  const title=$("lyricsTitle").value.trim();
+  const artist=$("lyricsArtist").value.trim();
+  if(!title)return notify("Enter a song title.","error");
+  $("lyricsText").textContent="Looking for lyrics...";
+  try{
+    const params=new URLSearchParams({track_name:title,artist_name:artist});
+    const response=await fetch("https://lrclib.net/api/get?"+params);
+    if(!response.ok)throw new Error("Lyrics not found.");
+    const data=await response.json();
+    $("lyricsText").textContent=data.plainLyrics||data.syncedLyrics||"No lyrics were provided for this track.";
+  }catch(error){$("lyricsText").textContent=error.message;notify("Could not find lyrics for that song.","error")}
+}
+function savePlaylist(){
+  const url=$("playlistUrl").value.trim();
+  if(!url)return notify("Paste a playlist URL first.","error");
+  try{new URL(url)}catch{return notify("That URL is invalid.","error")}
+  const items=readLocal(localKeys.playlists,[]);
+  if(!items.includes(url))items.push(url);
+  writeLocal(localKeys.playlists,items);$("playlistUrl").value="";renderPlaylists();
+  notify("Playlist link saved on this device.","success");
+}
+function renderPlaylists(){
+  const target=$("playlistList");if(!target)return;
+  target.replaceChildren();
+  readLocal(localKeys.playlists,[]).forEach((url,i)=>{
+    const div=document.createElement("div");div.className="track";
+    const link=document.createElement("a");link.href=url;link.target="_blank";link.rel="noopener noreferrer";
+    link.textContent=url;link.style.color="var(--accent)";link.style.overflowWrap="anywhere";
+    const remove=document.createElement("button");remove.textContent="Remove";
+    remove.onclick=()=>{const a=readLocal(localKeys.playlists,[]);a.splice(i,1);writeLocal(localKeys.playlists,a);renderPlaylists()};
+    div.append(link,remove);target.appendChild(div);
+  });
+}
+function applyTheme(){
+  const theme=$("themeSelect").value;
+  document.body.classList.toggle("light",theme==="light");
+  localStorage.setItem(localKeys.theme,theme);
+  notify("Theme updated.","success");
+}
+function applyAccent(){
+  const color=$("accentColor").value;
+  document.documentElement.style.setProperty("--accent",color);
+  localStorage.setItem(localKeys.accent,color);
+  notify("Accent color updated.","success");
+}
+function saveProxySettings(){
+  const value={
+    url:$("proxyUrl").value.trim(),
+    username:$("proxyUser").value.trim(),
+    password:$("proxyPass").value
+  };
+  writeLocal(localKeys.proxy,value);
+  notify("Proxy settings saved locally. They are not active until server-side proxy support is added.");
+}
+function clearProxySettings(){
+  localStorage.removeItem(localKeys.proxy);
+  $("proxyUrl").value="";$("proxyUser").value="";$("proxyPass").value="";
+  notify("Locally saved proxy settings cleared.");
+}
+async function runDiagnostics(){
+  const out=$("diagnosticOutput");
+  out.textContent="Checking dashboard...";
+  const results=[];
+  try{
+    const response=await fetch("/health",{cache:"no-store"});
+    results.push("Health endpoint: "+(response.ok?"OK":"HTTP "+response.status));
+  }catch(error){results.push("Health endpoint: FAILED — "+error.message)}
+  try{
+    const data=await api("/api/status");
+    results.push("Status endpoint: OK");
+    results.push("Bot ready: "+Boolean(data.botReady));
+    results.push("Servers: "+(data.guilds??"unknown"));
+    results.push("OAuth configured: "+Boolean(data.oauthConfigured));
+    results.push("Last error: "+(data.lastError||"None reported"));
+  }catch(error){results.push("Status endpoint: FAILED — "+error.message)}
+  out.textContent=results.join("\n");
+}
+function exportBackup(){
+  const backup={
+    version:1,
+    favorites:readLocal(localKeys.favorites,[]),
+    playlists:readLocal(localKeys.playlists,[]),
+    theme:localStorage.getItem(localKeys.theme)||"dark",
+    accent:localStorage.getItem(localKeys.accent)||"#a78bfa"
+  };
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="musically-backup.json";a.click();
+  URL.revokeObjectURL(url);
+}
+$("restoreFile").addEventListener("change",async e=>{
+  const file=e.target.files[0];if(!file)return;
+  try{
+    const data=JSON.parse(await file.text());
+    if(!data||typeof data!=="object")throw new Error("Invalid backup.");
+    if(Array.isArray(data.favorites))writeLocal(localKeys.favorites,data.favorites);
+    if(Array.isArray(data.playlists))writeLocal(localKeys.playlists,data.playlists);
+    if(["dark","light"].includes(data.theme))localStorage.setItem(localKeys.theme,data.theme);
+    if(typeof data.accent==="string"&&/^#[0-9a-f]{6}$/i.test(data.accent))localStorage.setItem(localKeys.accent,data.accent);
+    loadSavedAppearance();renderFavorites();renderPlaylists();
+    notify("Backup restored.","success");
+  }catch(error){notify("Could not restore backup: "+error.message,"error")}
+  e.target.value="";
+});
+function loadSavedAppearance(){
+  const theme=localStorage.getItem(localKeys.theme)||"dark";
+  $("themeSelect").value=theme;
+  document.body.classList.toggle("light",theme==="light");
+  const accent=localStorage.getItem(localKeys.accent)||"#a78bfa";
+  $("accentColor").value=accent;
+  document.documentElement.style.setProperty("--accent",accent);
+  const proxy=readLocal(localKeys.proxy,{});
+  $("proxyUrl").value=proxy.url||"";
+  $("proxyUser").value=proxy.username||"";
+  $("proxyPass").value=proxy.password||"";
+}
+loadSavedAppearance();
 refreshAll();
 setInterval(refreshStatus,15000);
 </script>

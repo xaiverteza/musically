@@ -1,17 +1,19 @@
 
 {
-  "name": "musically",
-  "version": "1.0.0",
+  "name": "musically-dashboard",
+  "version": "4.0.0",
   "description": "Musically Discord music bot and dashboard",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@discord-player/extractor": "^4.5.1",
     "discord-player": "^6.7.1",
     "discord.js": "^14.19.3",
-    "express": "^4.21.2",
-    "mediaplex": "^1.0.0"
+    "express": "^4.21.2"
   }
 }
